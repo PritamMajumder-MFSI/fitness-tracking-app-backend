@@ -1,7 +1,9 @@
 import dotenv from "dotenv";
 dotenv.config();
-import express, { Response } from "express";
+import express, { json, Response } from "express";
 import cors from "cors";
+import credentials from "./constants/credentials";
+import router from "./routes";
 
 const app = express();
 
@@ -11,10 +13,14 @@ app.get("/", (_, res: Response) => {
 
 app.use(cors());
 
+app.use(json());
+
+app.use("/api/v1", router);
+
 const startServer = async () => {
   try {
-    app.listen(process.env.PORT || 3000, () => {
-      console.log(`Server Listening on port: ${process.env.PORT || 3000}`);
+    app.listen(credentials.PORT || 3000, () => {
+      console.log(`Server Listening on port: ${credentials.PORT || 3000}`);
     });
   } catch (err) {
     console.log(

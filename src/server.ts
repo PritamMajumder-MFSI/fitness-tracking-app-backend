@@ -2,8 +2,8 @@ import dotenv from "dotenv";
 dotenv.config();
 import express, { json, Response } from "express";
 import cors from "cors";
-import credentials from "./constants/credentials";
 import router from "./routes";
+import { credentials } from "./constants";
 
 const app = express();
 

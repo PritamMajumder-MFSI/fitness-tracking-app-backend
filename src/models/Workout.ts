@@ -6,11 +6,12 @@ const workoutSchema = new mongoose.Schema<IWorkout>(
     type: {
       type: Types.ObjectId,
       required: true,
-      ref: "workoutTypes",
+      ref: "workoutType",
     },
     duration: { type: Number, required: true },
     calories: { type: Number, required: true },
     date: { type: Date, required: true },
+    isActive: { type: Boolean, required: true },
   },
   {
     timestamps: true,

@@ -7,10 +7,14 @@ const workoutTypeSchema = new mongoose.Schema<IWorkoutType>(
       type: String,
       required: true,
     },
+    isActive: {
+      type: Boolean,
+      required: true,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-export default mongoose.model("workoutTypes", workoutTypeSchema);
+export default mongoose.model("workoutType", workoutTypeSchema);

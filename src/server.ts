@@ -5,6 +5,7 @@ import cors from "cors";
 import router from "./routes";
 import { credentials } from "./constants";
 import { corsConfig } from "./config";
+import { connectToDatabase } from "./db/singletonClient";
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use("/api/v1", router);
 
 const startServer = async () => {
   try {
+    await connectToDatabase();
     app.listen(credentials.PORT || 3000, () => {
       console.log(`Server Listening on port: ${credentials.PORT || 3000}`);
     });

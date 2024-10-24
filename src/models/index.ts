@@ -1,2 +1,4 @@
 import Workout from "./Workout";
-export { Workout };
+import WorkoutTypes from "./WorkoutTypes";
+
+export { Workout, WorkoutTypes };

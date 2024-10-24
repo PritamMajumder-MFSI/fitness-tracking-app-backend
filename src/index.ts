@@ -1,8 +1,15 @@
 import dotenv from "dotenv";
 dotenv.config();
-import express from "express";
+import express, { Response } from "express";
+import cors from "cors";
 
 const app = express();
+
+app.get("/", (_, res: Response) => {
+  res.send("Welcome to Fitness tracker backend");
+});
+
+app.use(cors());
 
 const startServer = async () => {
   try {

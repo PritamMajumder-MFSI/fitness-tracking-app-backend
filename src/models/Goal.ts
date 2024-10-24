@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { IGoal } from "../types/interfaces";
 import { EGoalType } from "../types/enums";
 const goalSchema = new mongoose.Schema<IGoal>(
@@ -7,6 +7,11 @@ const goalSchema = new mongoose.Schema<IGoal>(
       type: String,
       required: true,
       enum: EGoalType,
+    },
+    userId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "user",
     },
     targetValue: { type: Number, required: true },
     achieved: { type: Boolean, required: true },

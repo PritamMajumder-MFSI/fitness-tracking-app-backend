@@ -4,6 +4,7 @@ import express, { json, Response } from "express";
 import cors from "cors";
 import router from "./routes";
 import { credentials } from "./constants";
+import { corsConfig } from "./config";
 
 const app = express();
 
@@ -11,7 +12,7 @@ app.get("/", (_, res: Response) => {
   res.send("Welcome to Fitness tracker backend");
 });
 
-app.use(cors());
+app.use(cors(corsConfig));
 
 app.use(json());
 

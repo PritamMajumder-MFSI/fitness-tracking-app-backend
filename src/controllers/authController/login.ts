@@ -1,38 +1,49 @@
-import { NextFunction, Request, Response, Router } from "express";
-import { successResponse } from "../../utils/defaultResponses";
-import { signupValidationSchema } from "../../validators";
+import Router, { NextFunction, Request, Response } from "express";
 import { HttpException } from "../../classes";
-import User from "../../models/User";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  successResponse,
+} from "../../utils";
+import {
+  accessTokenCookieConfig,
+  refreshTokenCookieConfig,
+} from "../../config";
+import { User } from "../../models";
+
 const router = Router();
 
-router.post("/", async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { body } = req;
-    const { error } = signupValidationSchema.validate(body);
-    if (error) {
-      throw new HttpException(422, error.message);
-    }
-    const existingUser = await User.findOne({ email: body.email });
-    if (existingUser) {
-      throw new HttpException(400, "User already exists");
-    }
+router.post(
+  "/",
+  async (request: Request, response: Response, next: NextFunction) => {
+    const { email, password } = request.body;
 
-    const newUser = new User({
-      username: body.username,
-      email: body.email,
-      password: body.password,
-    });
-    await newUser.save();
+    try {
+      const user = await User.findOne({ email });
+      if (!user) {
+        throw new HttpException(401, "Invalid credentials");
+      }
 
-    successResponse({
-      res,
-      message: "User successfully created",
-      data: { user: { username: body.username, email: body.email } },
-      status: 200,
-    });
-  } catch (err) {
-    next(err);
+      const isPasswordValid = await user.verifyPassword(password);
+      if (!isPasswordValid) {
+        throw new HttpException(401, "Invalid credentials");
+      }
+
+      const accessToken = generateAccessToken(String(user._id));
+      const refreshToken = generateRefreshToken(String(user._id));
+
+      response.cookie("accessToken", accessToken, accessTokenCookieConfig);
+      response.cookie("refreshToken", refreshToken, refreshTokenCookieConfig);
+
+      successResponse({
+        message: "Login successful",
+        data: { user: { email } },
+        res: response,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 export default router;

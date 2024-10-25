@@ -1,20 +1,54 @@
 import mongoose from "mongoose";
 import { credentials } from "../constants";
+import cluster from "cluster";
 
-let isConnected: boolean = false;
+const MONGODB_URI = credentials.MONGODB_URI!;
+let mongoConnection: Promise<typeof mongoose> | null = null;
 
-export const connectToDatabase = async (): Promise<void> => {
-  if (isConnected) {
-    console.log("Already connected to MongoDB");
-    return;
+export const connectToDatabase = async (): Promise<typeof mongoose> => {
+  if (!mongoConnection) {
+    if (cluster.isPrimary) {
+      console.log("Primary: Creating MongoDB connection...");
+    }
+
+    try {
+      mongoConnection = mongoose.connect(MONGODB_URI, {
+        maxPoolSize: 10,
+      });
+
+      if (cluster.isPrimary) {
+        mongoose.connection.on("connected", () => {
+          console.log("Primary: Connected to MongoDB.");
+        });
+
+        mongoose.connection.on("error", (err) => {
+          console.error("Primary: MongoDB connection error:", err);
+          mongoConnection = null;
+        });
+
+        mongoose.connection.on("disconnected", () => {
+          console.warn("Primary: MongoDB connection lost.");
+        });
+      }
+
+      return mongoConnection;
+    } catch (error) {
+      console.error("Primary: Failed to connect to MongoDB:", error);
+      mongoConnection = null;
+      throw error;
+    }
   }
 
-  try {
-    await mongoose.connect(credentials.MONGODB_URI!);
-    isConnected = true;
-    console.log("Connected to MongoDB successfully");
-  } catch (error) {
-    console.error("MongoDB connection error:", error);
-    throw new Error("Failed to connect to the database");
+  if (cluster.isWorker) {
+    console.log(`Worker ${process.pid}: Using MongoDB connection pool.`);
+  }
+
+  return mongoConnection;
+};
+
+export const closeDatabase = async (): Promise<void> => {
+  if (mongoose.connection.readyState !== 0) {
+    await mongoose.connection.close();
+    console.log("MongoDB connection closed.");
   }
 };

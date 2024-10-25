@@ -17,13 +17,12 @@ const router = Router();
 router.post(
   "/",
   async (request: Request, response: Response, next: NextFunction) => {
-    const { refreshToken } = request.cookies;
-
-    if (!refreshToken) {
-      return next(new HttpException(401, "Refresh token is missing"));
-    }
-
     try {
+      const { refreshToken } = request.cookies;
+
+      if (!refreshToken) {
+        throw new HttpException(401, "Refresh token is missing");
+      }
       const payload = verifyRefreshToken(refreshToken);
       const user = await User.findById(payload._id);
 

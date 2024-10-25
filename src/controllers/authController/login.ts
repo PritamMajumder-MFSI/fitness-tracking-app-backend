@@ -10,15 +10,20 @@ import {
   refreshTokenCookieConfig,
 } from "../../config";
 import { User } from "../../models";
+import { loginValidationSchema } from "../../validators";
 
 const router = Router();
 
 router.post(
   "/",
   async (request: Request, response: Response, next: NextFunction) => {
-    const { email, password } = request.body;
-
     try {
+      const { body } = request;
+      const { error } = loginValidationSchema.validate(body);
+      if (error) {
+        throw new HttpException(422, error.message);
+      }
+      const { email, password } = body;
       const user = await User.findOne({ email });
       if (!user) {
         throw new HttpException(401, "Invalid credentials");

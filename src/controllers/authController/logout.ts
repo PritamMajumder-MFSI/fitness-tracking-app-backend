@@ -3,7 +3,7 @@ import { successResponse } from "../../utils";
 
 const router = Router();
 
-router.post("/", (request: Request, response: Response, next: NextFunction) => {
+router.post("/", (_: Request, response: Response, next: NextFunction) => {
   try {
     response.clearCookie("accessToken");
     response.clearCookie("refreshToken");

@@ -3,6 +3,7 @@ import { verifyAccessToken } from "../utils/jwt";
 import { HttpException } from "../classes";
 
 const verifyToken = (req: Request, res: Response, next: NextFunction) => {
+  console.log("Cookies", req.cookies);
   const accessToken = req.cookies.accessToken;
 
   if (!accessToken) {

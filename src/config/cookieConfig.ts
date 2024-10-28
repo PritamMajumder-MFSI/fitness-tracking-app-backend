@@ -4,7 +4,7 @@ import { credentials } from "../constants";
 const commonOptions: CookieOptions = {
   httpOnly: true,
   secure: credentials.NODE_ENV === "production",
-  sameSite: "strict",
+  sameSite: "none",
 };
 
 const accessTokenCookieConfig: CookieOptions = {

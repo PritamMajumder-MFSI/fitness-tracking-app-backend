@@ -2,11 +2,14 @@ import credentials from "../constants/credentials";
 
 export default credentials.NODE_ENV == "development"
   ? {
-      origin: ["https://localhost:4200"],
+      origin: ["http://localhost:4200"],
       methods: ["GET", "POST", "PUT", "DELETE"],
       allowedHeaders: ["Content-Type", "Authorization"],
+      credentials: true,
     }
   : {
-      origin: "",
-      optionSuccessStatus: 200,
+      origin: [""],
+      methods: ["GET", "POST", "PUT", "DELETE"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+      credentials: true,
     };

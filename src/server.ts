@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-import express, { json, Response } from "express";
+import express, { json, NextFunction, Response, Request } from "express";
 import cors from "cors";
 import router from "./routes";
 import { credentials } from "./constants";
@@ -10,6 +10,7 @@ import helmet from "helmet";
 import { rateLimit } from "express-rate-limit";
 import cluster from "cluster";
 import os from "os";
+import cookieParser from "cookie-parser";
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000,
@@ -25,12 +26,17 @@ app.use(limiter);
 app.use(json({ limit: "1mb" }));
 
 app.use(helmet());
+app.use(cookieParser());
+app.use(cors(corsConfig));
+
+app.use((req: Request, _: Response, next: NextFunction) => {
+  console.log(req.method, " request Arrived at :", req.url);
+  next();
+});
 
 app.get("/", (_, res: Response) => {
   res.send("Welcome to Fitness tracker backend");
 });
-
-app.use(cors(corsConfig));
 
 app.use("/api/v1", router);
 

@@ -42,7 +42,7 @@ router.post(
 
       successResponse({
         message: "Login successful",
-        data: { user: { email } },
+        data: { user: { email, username: user.username } },
         res: response,
       });
     } catch (error) {

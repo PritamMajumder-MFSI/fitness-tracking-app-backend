@@ -7,10 +7,6 @@ let mongoConnection: Promise<typeof mongoose> | null = null;
 
 export const connectToDatabase = async (): Promise<typeof mongoose> => {
   if (!mongoConnection) {
-    if (cluster.isPrimary) {
-      console.log("Primary: Creating MongoDB connection...");
-    }
-
     try {
       mongoConnection = mongoose.connect(MONGODB_URI, {
         maxPoolSize: 10,

@@ -36,26 +36,32 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
               },
             },
             {
-              $group: {
-                _id: null,
-                totalCalories: { $sum: "$calories" },
-                totalWorkouts: { $sum: 1 },
+              $lookup: {
+                from: "workouttypes",
+                localField: "type",
+                foreignField: "_id",
+                as: "typeInfo",
+              },
+            },
+            {
+              $unwind: {
+                path: "$typeInfo",
+                preserveNullAndEmptyArrays: true,
               },
             },
           ],
-          as: "workoutData",
+          as: "workouts",
         },
       },
-      {
-        $unwind: {
-          path: "$workoutData",
-          preserveNullAndEmptyArrays: true,
-        },
-      },
+
       {
         $addFields: {
-          totalCalories: { $ifNull: ["$workoutData.totalCalories", 0] },
-          totalWorkouts: { $ifNull: ["$workoutData.totalWorkouts", 0] },
+          totalCalories: {
+            $sum: "$workouts.calories",
+          },
+          totalWorkouts: {
+            $size: "$workouts",
+          },
         },
       },
       {
@@ -63,6 +69,7 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
           _id: 1,
           goalType: 1,
           userId: 1,
+          workouts: 1,
           targetValue: 1,
           isActive: 1,
           to: 1,

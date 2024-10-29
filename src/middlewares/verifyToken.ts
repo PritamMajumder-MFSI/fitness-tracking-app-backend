@@ -12,6 +12,7 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
 
   try {
     const userData = verifyAccessToken(accessToken);
+    console.log("user-->", userData);
     req.user = userData;
     next();
   } catch (error) {

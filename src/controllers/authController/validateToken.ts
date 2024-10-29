@@ -3,8 +3,12 @@ import { successResponse } from "../../utils";
 
 const router = Router();
 
-router.get("/", (_: Request, response: Response) => {
-  successResponse({ message: "Validated token", data: {}, res: response });
+router.get("/", (req: Request, response: Response) => {
+  successResponse({
+    message: "Validated token",
+    data: { user: req.user },
+    res: response,
+  });
 });
 
 export default router;

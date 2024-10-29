@@ -22,6 +22,7 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
       email: body.email,
       password: body.password,
     });
+
     await newUser.save();
 
     successResponse({

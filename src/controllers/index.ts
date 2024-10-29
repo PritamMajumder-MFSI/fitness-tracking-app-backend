@@ -1,3 +1,3 @@
 import authController from "./authController";
-
-export { authController };
+import workoutController from "./workout";
+export { authController, workoutController };

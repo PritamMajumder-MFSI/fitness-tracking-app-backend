@@ -34,8 +34,16 @@ router.post(
         throw new HttpException(401, "Invalid credentials");
       }
 
-      const accessToken = generateAccessToken(String(user._id));
-      const refreshToken = generateRefreshToken(String(user._id));
+      const accessToken = generateAccessToken(
+        String(user._id),
+        user.email,
+        user.username
+      );
+      const refreshToken = generateRefreshToken(
+        String(user._id),
+        user.email,
+        user.username
+      );
 
       response.cookie("accessToken", accessToken, accessTokenCookieConfig);
       response.cookie("refreshToken", refreshToken, refreshTokenCookieConfig);

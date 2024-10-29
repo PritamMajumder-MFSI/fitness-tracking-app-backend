@@ -1,4 +1,4 @@
-import Router, { NextFunction, Request, Response } from "express";
+import Router, { Request, Response } from "express";
 import { successResponse } from "../../utils";
 
 const router = Router();

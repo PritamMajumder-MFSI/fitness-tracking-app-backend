@@ -24,14 +24,22 @@ router.post(
         throw new HttpException(401, "Refresh token is missing");
       }
       const payload = verifyRefreshToken(refreshToken);
-      const user = await User.findById(payload._id);
+      const user = await User.findById(payload.userId);
 
       if (!user) {
         throw new HttpException(401, "User not found");
       }
 
-      const newAccessToken = generateAccessToken(String(user._id));
-      const newRefreshToken = generateRefreshToken(String(user._id));
+      const newAccessToken = generateAccessToken(
+        String(user._id),
+        user.username,
+        user.email
+      );
+      const newRefreshToken = generateRefreshToken(
+        String(user._id),
+        user.username,
+        user.email
+      );
 
       response.cookie("accessToken", newAccessToken, accessTokenCookieConfig);
       response.cookie(

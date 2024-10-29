@@ -14,8 +14,9 @@ const goalSchema = new mongoose.Schema<IGoal>(
       ref: "user",
     },
     targetValue: { type: Number, required: true },
-    achieved: { type: Boolean, required: true },
     isActive: { type: Boolean, required: true },
+    to: { type: Date, required: true },
+    from: { type: Date, required: true },
   },
   {
     timestamps: true,

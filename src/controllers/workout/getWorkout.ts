@@ -1,17 +1,21 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { Workout, WorkoutTypes } from "../../models";
 import { successResponse } from "../../utils";
+import mongoose from "mongoose";
 const router = Router();
 
 router.get("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const userId = req.user?.userId!;
     const page = parseInt(req.query.page as string) || 1;
     const limit = Math.min(parseInt(req.query.limit as string) || 10, 1000);
 
     const skip = (page - 1) * limit;
 
     const result = await Workout.aggregate([
-      { $match: { isActive: true } },
+      {
+        $match: { isActive: true, userId: new mongoose.Types.ObjectId(userId) },
+      },
       {
         $lookup: {
           from: "workouttypes",
@@ -32,7 +36,6 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
     const workouts = result[0].data;
     const total = result[0].totalCount[0]?.total || 0;
 
-    console.log(result);
     successResponse({
       res,
       data: { workouts, total },

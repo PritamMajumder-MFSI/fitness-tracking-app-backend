@@ -1,11 +1,16 @@
 import { NextFunction, Router, Response, Request } from "express";
-import { authController, workoutController } from "../controllers";
+import {
+  authController,
+  goalController,
+  workoutController,
+} from "../controllers";
 import { HttpException } from "../classes";
 import { errorResponse } from "../utils/defaultResponses";
 const router = Router();
 
 router.use("/auth", authController);
 router.use("/workout", workoutController);
+router.use("/goal", goalController);
 
 router.use(
   (err: HttpException, _req: Request, res: Response, _next: NextFunction) => {

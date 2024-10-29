@@ -18,7 +18,8 @@ export interface IWorkoutType extends Document {
 export interface IGoal extends Document {
   goalType: TGoalType;
   targetValue: number;
-  achieved: boolean;
+  from: Date;
+  to: Date;
   userId: Schema.Types.ObjectId;
   isActive: Boolean;
 }

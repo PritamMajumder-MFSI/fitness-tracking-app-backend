@@ -3,7 +3,6 @@ import { verifyAccessToken } from "../utils/jwt";
 import { HttpException } from "../classes";
 
 const verifyToken = (req: Request, res: Response, next: NextFunction) => {
-  console.log("Cookies", req.cookies);
   const accessToken = req.cookies.accessToken;
 
   if (!accessToken) {
@@ -12,7 +11,6 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
 
   try {
     const userData = verifyAccessToken(accessToken);
-    console.log("user-->", userData);
     req.user = userData;
     next();
   } catch (error) {

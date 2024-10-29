@@ -1,3 +1,4 @@
 import authController from "./authController";
 import workoutController from "./workout";
-export { authController, workoutController };
+import goalController from "./goals";
+export { authController, workoutController, goalController };

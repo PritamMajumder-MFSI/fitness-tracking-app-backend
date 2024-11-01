@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { successResponse } from "../../utils";
 import { Workout } from "../../models";
+import mongoose from "mongoose";
 
 const router = Router();
 
@@ -18,13 +19,31 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
     const daysOfMonth = Array.from({ length: 31 }, (_, i) =>
       (i + 1).toString()
     );
-
+    const monthsOfYear = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
     const days = parseInt(req.query.days as string) || 7;
-
-    const labels = days === 7 ? daysOfWeek : daysOfMonth;
+    const labels =
+      days === 7 ? daysOfWeek : days === 365 ? monthsOfYear : daysOfMonth;
 
     const workouts = await Workout.aggregate([
-      { $match: { isActive: true } },
+      {
+        $match: {
+          isActive: true,
+          userId: new mongoose.Types.ObjectId(req.user?.userId),
+        },
+      },
       {
         $lookup: {
           from: "workouttypes",
@@ -36,7 +55,12 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
       { $unwind: "$typeInfo" },
       {
         $group: {
-          _id: days === 7 ? { $dayOfWeek: "$date" } : { $dayOfMonth: "$date" },
+          _id:
+            days === 7
+              ? { $dayOfWeek: "$date" }
+              : days === 365
+              ? { $month: "$date" }
+              : { $dayOfMonth: "$date" },
           totalCalories: { $sum: "$calories" },
           totalWorkouts: { $sum: 1 },
           workoutTypes: { $addToSet: "$typeInfo.workoutTypeName" },

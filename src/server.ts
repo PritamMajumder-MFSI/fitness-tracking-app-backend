@@ -11,6 +11,9 @@ import { rateLimit } from "express-rate-limit";
 import cluster from "cluster";
 import os from "os";
 import cookieParser from "cookie-parser";
+import "./utils/passport";
+import passport from "passport";
+import session from "express-session";
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000,
@@ -28,7 +31,15 @@ app.use(json({ limit: "1mb" }));
 app.use(helmet());
 app.use(cookieParser());
 app.use(cors(corsConfig));
-
+app.use(
+  session({
+    resave: false,
+    saveUninitialized: false,
+    secret: "sesion secret",
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 app.use((req: Request, _: Response, next: NextFunction) => {
   console.log(req.method, " request Arrived at :", req.url);
   next();

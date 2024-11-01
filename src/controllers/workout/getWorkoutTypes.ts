@@ -3,10 +3,11 @@ import { WorkoutTypes } from "../../models";
 import { successResponse } from "../../utils";
 const router = Router();
 
-router.get("/", async (_: Request, res: Response, next: NextFunction) => {
+router.get("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log("Workout route");
-    const result = await WorkoutTypes.find({});
+    const result = await WorkoutTypes.find({
+      isActive: true,
+    });
     successResponse({
       res,
       data: result,

@@ -4,9 +4,8 @@ import { HttpException } from "../classes";
 
 const verifyToken = (req: Request, res: Response, next: NextFunction) => {
   const accessToken = req.cookies.accessToken;
-
   if (!accessToken) {
-    return next(new HttpException(401, "Access token is missing"));
+    return next(new HttpException(412, "Access token is missing"));
   }
 
   try {
@@ -16,7 +15,7 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
   } catch (error) {
     next(
       new HttpException(
-        401,
+        412,
         error instanceof Error ? error.message : "Invalid access token"
       )
     );

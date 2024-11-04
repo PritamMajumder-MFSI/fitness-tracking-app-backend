@@ -8,7 +8,7 @@ export const successResponse = ({
 }: {
   res: Response;
   message: string;
-  data: any;
+  data: unknown;
   status?: number;
 }) => {
   res.status(status).json({ message, data, success: true });
@@ -22,7 +22,7 @@ export const errorResponse = ({
 }: {
   res: Response;
   message: string;
-  data: any;
+  data: unknown;
   status?: number;
 }) => {
   res.status(status).json({ message, data, success: false });

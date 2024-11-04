@@ -7,7 +7,7 @@ const router = Router();
 
 router.get("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const userId = req.user?.userId!;
+    const userId = req.user?.userId;
     const page = parseInt(req.query.page as string) || 1;
     const limit = Math.min(parseInt(req.query.limit as string) || 10, 1000);
     const skip = (page - 1) * limit;

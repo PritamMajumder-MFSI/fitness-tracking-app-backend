@@ -7,6 +7,7 @@ import {
   accessTokenCookieConfig,
   refreshTokenCookieConfig,
 } from "../../config";
+import { PassportUser } from "../../types/interfaces";
 const router = Router();
 
 router.get(
@@ -25,7 +26,7 @@ router.get(
   passport.authenticate("google", { failureRedirect: "/login" }),
   async (req: Request, response: Response, next: NextFunction) => {
     try {
-      const googleUser = req.user as any;
+      const googleUser = req.user as unknown as PassportUser;
       let existingUser = await User.findOne({
         email: googleUser.emails[0].value,
       });

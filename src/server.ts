@@ -14,6 +14,7 @@ import cookieParser from "cookie-parser";
 import "./utils/passport";
 import passport from "passport";
 import session from "express-session";
+import { Server } from "http";
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000,
@@ -97,7 +98,7 @@ if (cluster.isPrimary) {
       );
     }
   };
-  const shutdown = (server: any) => {
+  const shutdown = (server: Server) => {
     console.log("Shutting down gracefully...");
     server.close(async () => {
       await closeDatabase();

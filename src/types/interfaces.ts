@@ -34,3 +34,13 @@ export interface IOtp {
   value: string;
   validUntil: Date;
 }
+export interface WorkoutStats {
+  totalCalories: number;
+  totalWorkouts: number;
+  workoutTypes: string[];
+}
+export interface PassportUser {
+  id: string;
+  displayName: string;
+  emails: { value: string }[];
+}

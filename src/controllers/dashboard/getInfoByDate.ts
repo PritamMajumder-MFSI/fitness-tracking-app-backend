@@ -2,6 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import { successResponse } from "../../utils";
 import { Workout } from "../../models";
 import mongoose from "mongoose";
+import { WorkoutStats } from "../../types/interfaces";
 
 const router = Router();
 
@@ -69,7 +70,7 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
       { $sort: { _id: 1 } },
     ]);
 
-    const resultMap: Record<string, any> = {};
+    const resultMap: Record<string, WorkoutStats> = {};
     labels.forEach((label) => {
       resultMap[label] = {
         totalCalories: 0,

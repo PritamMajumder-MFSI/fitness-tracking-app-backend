@@ -1,4 +1,5 @@
 import { errorResponse, successResponse } from "./defaultResponses";
+import { generateOTP } from "./generateOtp";
 import {
   generateAccessToken,
   generateRefreshToken,
@@ -12,5 +13,6 @@ export {
   generateAccessToken,
   generateRefreshToken,
   verifyAccessToken,
+  generateOTP,
   verifyRefreshToken,
 };

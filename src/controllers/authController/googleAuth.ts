@@ -1,9 +1,5 @@
 import Router, { NextFunction, Request, Response } from "express";
-import {
-  generateAccessToken,
-  generateRefreshToken,
-  successResponse,
-} from "../../utils";
+import { generateAccessToken, generateRefreshToken } from "../../utils";
 import passport from "passport";
 import { credentials } from "../../constants";
 import { User } from "../../models";
@@ -11,7 +7,6 @@ import {
   accessTokenCookieConfig,
   refreshTokenCookieConfig,
 } from "../../config";
-import { HttpException } from "../../classes";
 const router = Router();
 
 router.get(

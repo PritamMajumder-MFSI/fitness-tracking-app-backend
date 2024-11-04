@@ -1,11 +1,21 @@
 import mongoose, { CallbackError, Model, Schema } from "mongoose";
 import bcrypt from "bcrypt";
-import { IUser } from "../types/interfaces";
-
+import { IOtp, IUser } from "../types/interfaces";
+const otpSchema: Schema<IOtp> = new Schema(
+  {
+    value: { type: String, required: true },
+    validUntil: { type: Date, required: true },
+  },
+  {
+    _id: false,
+    timestamps: false,
+  }
+);
 const UserSchema: Schema<IUser> = new Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  otp: { type: otpSchema, required: false },
 });
 
 UserSchema.pre<IUser>("save", async function (next) {

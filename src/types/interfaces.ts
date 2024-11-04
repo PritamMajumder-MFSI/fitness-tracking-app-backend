@@ -27,5 +27,10 @@ export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
+  otp?: IOtp;
   verifyPassword(password: string): Promise<boolean>;
+}
+export interface IOtp {
+  value: string;
+  validUntil: Date;
 }

@@ -54,7 +54,12 @@ router.post(
         data: { accessToken: newAccessToken, refresToken: newRefreshToken },
       });
     } catch (error) {
-      next(new HttpException(401, "Invalid refresh token"));
+      next(
+        new HttpException(
+          401,
+          error instanceof Error ? error.message : "Invalid refresh token"
+        )
+      );
     }
   }
 );

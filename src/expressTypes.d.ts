@@ -1,14 +1,12 @@
-import { Request } from "express";
-
 declare global {
   namespace Express {
-    interface Request {
+    export interface Request {
       user?: { userId: string; email: string; username: string };
     }
   }
 }
-declare module "express-session" {
-  export interface SessionData {
-    lastQuery: any;
-  }
-}
+// declare module "express-session" {
+//   export interface SessionData {
+//     lastQuery: unknown;
+//   }
+// }

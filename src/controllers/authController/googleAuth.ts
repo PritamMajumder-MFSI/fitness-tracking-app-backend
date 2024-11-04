@@ -14,8 +14,6 @@ router.get(
   passport.authenticate("google", { scope: ["profile", "email"] }),
   (request: Request, response: Response, next: NextFunction) => {
     try {
-      request.session.lastQuery = request.query;
-
       passport.authenticate("google", { scope: ["profile", "email"] });
     } catch (error) {
       next(error);
@@ -27,7 +25,6 @@ router.get(
   passport.authenticate("google", { failureRedirect: "/login" }),
   async (req: Request, response: Response, next: NextFunction) => {
     try {
-      console.log("mycallu", req.session, req.user);
       const googleUser = req.user as any;
       let existingUser = await User.findOne({
         email: googleUser.emails[0].value,

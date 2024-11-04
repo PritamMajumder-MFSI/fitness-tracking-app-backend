@@ -1,4 +1,4 @@
-import mongoose, { CallbackError, Model, Schema } from "mongoose";
+import mongoose, { CallbackError, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import { IOtp, IUser } from "../types/interfaces";
 const otpSchema: Schema<IOtp> = new Schema(

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 
 import { HttpException } from "../../classes";
-import { Goal, Workout } from "../../models";
+import { Goal } from "../../models";
 import { successResponse } from "../../utils";
 import goalCreateSchema from "../../validators/goalCreateSchema";
 const router = Router();

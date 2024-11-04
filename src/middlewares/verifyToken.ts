@@ -14,7 +14,12 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
     req.user = userData;
     next();
   } catch (error) {
-    next(new HttpException(401, "Invalid access token"));
+    next(
+      new HttpException(
+        401,
+        error instanceof Error ? error.message : "Invalid access token"
+      )
+    );
   }
 };
 

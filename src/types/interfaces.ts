@@ -7,12 +7,12 @@ export interface IWorkout extends Document {
   calories: number;
   userId: Schema.Types.ObjectId;
   date: Date;
-  isActive: Boolean;
+  isActive: boolean;
 }
 
 export interface IWorkoutType extends Document {
   workoutTypeName: string;
-  isActive: Boolean;
+  isActive: boolean;
 }
 
 export interface IGoal extends Document {
@@ -21,7 +21,7 @@ export interface IGoal extends Document {
   from: Date;
   to: Date;
   userId: Schema.Types.ObjectId;
-  isActive: Boolean;
+  isActive: boolean;
 }
 export interface IUser extends Document {
   username: string;

@@ -22,6 +22,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((user, done) => {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     done(null, user as any);
   } catch (error) {
     done(error);

@@ -9,7 +9,9 @@ export const generateAccessToken = (
   username: string,
   email: string
 ) => {
-  return jwt.sign({ userId, email, username }, ACCESS_TOKEN_SECRET, { expiresIn: "1h" });
+  return jwt.sign({ userId, email, username }, ACCESS_TOKEN_SECRET, {
+    expiresIn: "1h",
+  });
 };
 
 export const generateRefreshToken = (
@@ -31,7 +33,9 @@ export const verifyAccessToken = (token: string) => {
     };
     return decoded;
   } catch (error) {
-    throw new Error("Invalid access token");
+    throw new Error(
+      error instanceof Error ? error.message : "Invalid access token"
+    );
   }
 };
 
@@ -44,6 +48,8 @@ export const verifyRefreshToken = (token: string) => {
     };
     return decoded;
   } catch (error) {
-    throw new Error("Invalid access token");
+    throw new Error(
+      error instanceof Error ? error.message : "Invalid access token"
+    );
   }
 };

@@ -1,12 +1,16 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { Workout, WorkoutTypes } from "../../models";
+import { Workout } from "../../models";
 import { successResponse } from "../../utils";
 import mongoose from "mongoose";
+import { HttpException } from "../../classes";
 const router = Router();
 
 router.get("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const userId = req.user?.userId!;
+    const userId = req.user?.userId;
+    if (!userId) {
+      throw new HttpException(400, "User id is required");
+    }
     const page = parseInt(req.query.page as string) || 1;
     const limit = Math.min(parseInt(req.query.limit as string) || 10, 1000);
 

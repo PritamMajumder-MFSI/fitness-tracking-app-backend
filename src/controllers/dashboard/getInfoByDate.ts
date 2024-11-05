@@ -67,7 +67,7 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
           workoutTypes: { $addToSet: "$typeInfo.workoutTypeName" },
         },
       },
-      { $sort: { _id: 1 } },
+      { $sort: { createdAt: -1 } },
     ]);
 
     const resultMap: Record<string, WorkoutStats> = {};

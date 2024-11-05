@@ -86,6 +86,7 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
           updatedAt: 1,
         },
       },
+      { $sort: { createdAt: -1 } },
       { $limit: 5 },
     ]);
     successResponse({

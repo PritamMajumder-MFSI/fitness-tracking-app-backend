@@ -28,6 +28,7 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
           as: "workoutType",
         },
       },
+      { $sort: { createdAt: -1 } },
 
       {
         $facet: {

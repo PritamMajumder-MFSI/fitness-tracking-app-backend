@@ -4,6 +4,7 @@ import {
   goalController,
   workoutController,
   dashboardController,
+  notificationController,
 } from "../controllers";
 import { HttpException } from "../classes";
 import { errorResponse } from "../utils/defaultResponses";
@@ -13,6 +14,7 @@ router.use("/auth", authController);
 router.use("/workout", workoutController);
 router.use("/goal", goalController);
 router.use("/dashboard", dashboardController);
+router.use("/notifications", notificationController);
 
 router.use(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

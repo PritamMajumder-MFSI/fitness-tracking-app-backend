@@ -64,7 +64,9 @@ if (cluster.isPrimary) {
       for (let i = 0; i < cpuCount; i++) {
         cluster.fork();
       }
-
+      import("./cronjobs").then(() => {
+        console.log("Cron jobs scheduled in the primary process.");
+      });
       cluster.on("exit", (worker, code, signal) => {
         console.log(
           `Worker ${worker.process.pid} exited with code: ${code}, signal: ${signal}. Restarting...`

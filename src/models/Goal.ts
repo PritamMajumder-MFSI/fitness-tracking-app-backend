@@ -17,6 +17,7 @@ const goalSchema = new mongoose.Schema<IGoal>(
     isActive: { type: Boolean, required: true },
     to: { type: Date, required: true },
     from: { type: Date, required: true },
+    isNotified: { type: Boolean, default: false },
   },
   {
     timestamps: true,

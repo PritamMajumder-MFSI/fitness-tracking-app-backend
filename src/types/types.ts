@@ -1,1 +1,1 @@
-export type TGoalType = "workoutPerWeek" | "calories";
+export type TGoalType = "workoutPerWeek" | "specificCalorieGoal";
